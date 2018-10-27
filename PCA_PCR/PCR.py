@@ -1,90 +1,44 @@
 
 # coding: utf-8
 
-# In[38]:
+# ### Point 1
 
-#Importo lo necesario para realizar el ejercicio 
+# In[6]:
+
+
+#Needed imports
 import numpy as np
 import matplotlib.pyplot as plt
-import numpy.linalg as linalg
 
 
-# In[39]:
-
-#Se importan los datos de la fuente WDBC sobre pacientes.
-datos = np.genfromtxt("WDBC.dat", None, delimiter = "\n") 
-datoscancer = np.zeros([len(datos),32])
-prueba = (datos[0].decode('UTF-8')).split(',')
+# In[7]:
 
 
-# In[45]:
-
-#Se agregan los datos a una matriz 
-for i in range(len(datos)):
-    datoscancer[i] = (datos[i].decode('UTF-8')).split(',')
+#Read the data from WDBC.dat 
+data = np.genfromtxt("WDBC.dat",None,delimiter="\n")
 
 
-# In[46]:
-
-datoscancer.shape
+# In[8]:
 
 
-# In[ ]:
+#Create a vector called diagnsis wich represent the first value
+diagnosis = np.zeros(len(data))
+#Create a matriz for the other data 
+otherdata = np.zeros([len(data),30])
 
 
+# In[11]:
 
 
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
+#built the matrix of the data in WDBC.dat by adding each row
+for i in range(len(data)):
+    row = (data[i].decode('UTF-8')).split(",")
+    #Give values of the first vector, if it is Malign of Benig. 1 for M and 0 for B
+    if row[1]=='M':
+        diagnosis[i]=1
+    elif row[1]=='B':
+        diagnosis[i]=0
+    #Keep building the matrix
+    for j in range(30):
+        otherdata[i][j]=(row)[j+2]
 
