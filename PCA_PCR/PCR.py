@@ -3,7 +3,7 @@
 
 # ### Point 1
 
-# In[6]:
+# In[2]:
 
 
 #Needed imports
@@ -11,14 +11,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# In[7]:
+# In[3]:
 
 
 #Read the data from WDBC.dat 
 data = np.genfromtxt("WDBC.dat",None,delimiter="\n")
 
 
-# In[8]:
+# In[4]:
 
 
 #Create a vector called diagnsis wich represent the first value
@@ -27,7 +27,7 @@ diagnosis = np.zeros(len(data))
 otherdata = np.zeros([len(data),30])
 
 
-# In[11]:
+# In[6]:
 
 
 #built the matrix of the data in WDBC.dat by adding each row
@@ -41,4 +41,24 @@ for i in range(len(data)):
     #Keep building the matrix
     for j in range(30):
         otherdata[i][j]=(row)[j+2]
+Matrix = np.transpose(otherdata)
+#Normalization of the matrix
+for i in range(len(Matrix)):
+    Matrix[i]=Matrix[i]/np.std(Matrix[i])
+
+
+# In[14]:
+
+
+#To create the covariance matrix beetwen the data
+#function that gives the covariance bt two vectors 
+def covar(x,y):
+    meanx = np.mean(x)
+    meany = np.mean(y)
+    return np.sum((x-meanx)*(y-meany))/(len(x)-1)
+cov = np.empty([len(Matrix),len(Matrix)])
+for i in range(len(Matrix)):
+    for j in range(len(Matrix)):
+        cov[i,j]=covar(Matrix[:,j],Matrix[:,i])
+print(cov)
 
