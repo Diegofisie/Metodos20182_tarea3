@@ -110,7 +110,7 @@ print("No se puede encontrar la tranformada de los datos ya que estos tienen una
 # In[49]:
 
 
-#Interpolaciones datos incompletos cuadratica y cubica
+#Interpolation on the data, quadratic and cuvis to find the transform.
 fquadratic = interpolate.interp1d(incomp_1,incomp_2,kind = "quadratic")
 fcubic = interpolate.interp1d(incomp_1,incomp_2,kind = "cubic")
 data_x = np.linspace(imcomp_1[0],imcomp_1[-1],512)
@@ -124,24 +124,24 @@ freqO = np.concatenate((np.linspace(0,pf,len(imcomp_1))[0:256],np.linspace(-pf,0
 freq = np.concatenate((np.linspace(0,pf,len(data_x))[0:256],np.linspace(-pf,0,len(data_X))[255:511]))
 
 
-# In[52]:
+# In[53]:
 
 
 plt.figure()
 plt.subplot(221)
-plt.plot(freqO,transform,"b",label="trans Original")
+plt.plot(freqO,transform,label="trans Original")
 plt.legend()
 plt.grid(True)
 plt.ylabel("Amplitud")
 plt.xlabel("Frecuencia[Hz]")
 plt.subplot(222)
-plt.plot(freq,tranformquadratic,"r",label="Quadratic" )
+plt.plot(freq,tranformquadratic,label="Quadratic" )
 plt.legend()
 plt.grid(True)
 plt.ylabel("Amplitud")
 plt.xlabel("Frecuencia[Hz]")
 plt.subplot(223)
-plt.plot(freq,tranformcubic,"y",label="Cubic")
+plt.plot(freq,tranformcubic,label="Cubic")
 plt.legend()
 plt.grid(True)
 plt.ylabel("Amplitud")
