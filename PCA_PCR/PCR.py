@@ -62,3 +62,14 @@ for i in range(len(Matrix)):
         cov[i,j]=covar(Matrix[:,j],Matrix[:,i])
 print(cov)
 
+
+# In[17]:
+
+
+#computation of the eigenvalues and eigenvectors of the covar matrix
+aguapanela = np.linalg.eig(cov)
+eigvals = aguapanela[0]
+eigvecs = aguapanela[1]
+print("EigenValores: \n" + str(eigvals))
+print("EigenVectores: \n" + str(eigvecs))
+
