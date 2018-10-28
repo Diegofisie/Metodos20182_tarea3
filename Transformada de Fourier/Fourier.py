@@ -3,7 +3,7 @@
 
 # ### Punto 2
 
-# In[26]:
+# In[58]:
 
 
 #Needed imports 
@@ -14,7 +14,7 @@ from scipy.fftpack import ifft
 from scipy import interpolate
 
 
-# In[27]:
+# In[59]:
 
 
 #read the data from the dat archive signal
@@ -22,7 +22,7 @@ signal = np.loadtxt("signal.dat",delimiter = ",")
 incomplete = np.loadtxt("incompletos.dat",delimiter=",")
 
 
-# In[28]:
+# In[60]:
 
 
 #Separate the 2 columns of the data to make the plot 
@@ -36,7 +36,7 @@ plt.xlabel("Data in signal 0")
 plt.savefig("MartinezDiego_signal.pdf", type = "PDF")
 
 
-# In[29]:
+# In[61]:
 
 
 #Implementation of fourier tranform
@@ -52,7 +52,7 @@ def fourier(signal_2):
     return transform 
 
 
-# In[34]:
+# In[62]:
 
 
 #Fourier transform of the data and transformation of the freq
@@ -63,7 +63,7 @@ freq = np.concatenate((np.linspace(0,pf,len(signal_2))[0:256],np.linspace(-pf,0,
 print("No se utilizo el paquete de fftfreq :)")
 
 
-# In[35]:
+# In[63]:
 
 
 plt.title("Grafica de la transformada")
@@ -76,7 +76,7 @@ plt.grid(True)
 plt.savefig("MartinezDiego_TF.pdf", type = "PDF")
 
 
-# In[36]:
+# In[64]:
 
 
 #lowpass filter
@@ -94,7 +94,7 @@ plt.savefig("MartinezDiego_filtrada.pdf",type = "pdf")
 
 # ### Datos incompletos
 
-# In[43]:
+# In[65]:
 
 
 incomp_1 = incomplete[:,0]
@@ -107,24 +107,24 @@ plt.grid(True)
 print("No se puede encontrar la tranformada de los datos ya que estos tienen una tasa de muestreo muy pequena y esto hace que no hayan suficientes datos como para recontruir la ransformada")
 
 
-# In[49]:
+# In[77]:
 
 
 #Interpolation on the data, quadratic and cuvis to find the transform.
 fquadratic = interpolate.interp1d(incomp_1,incomp_2,kind = "quadratic")
 fcubic = interpolate.interp1d(incomp_1,incomp_2,kind = "cubic")
 data_x = np.linspace(imcomp_1[0],imcomp_1[-1],512)
-datafcuadra = fquadratic(data_X)
-datafcubic = fcubic(data_X)
+datafcuadra = fquadratic(data_x)
+datafcubic = fcubic(data_x)
 transform=fourier(incomp_2)
 tranformquadratic=fourier(datafcuadra)
 tranformcubic=fourier(datafcubic)
-pf = (1/(data_x[1]-data_X[0]))
+pf = (1/(data_x[1]-data_x[0]))
 freqO = np.concatenate((np.linspace(0,pf,len(imcomp_1))[0:256],np.linspace(-pf,0,len(imcomp_1))[255:511]))
-freq = np.concatenate((np.linspace(0,pf,len(data_x))[0:256],np.linspace(-pf,0,len(data_X))[255:511]))
+freq = np.concatenate((np.linspace(0,pf,len(data_x))[0:256],np.linspace(-pf,0,len(data_x))[255:511]))
 
 
-# In[53]:
+# In[80]:
 
 
 plt.figure()
@@ -147,4 +147,72 @@ plt.grid(True)
 plt.ylabel("Amplitud")
 plt.xlabel("Frecuencia[Hz]")
 plt.savefig("MartinezDiego_TF_interpola.pdf",type = "pdf")
+plt.close()
+
+
+# In[81]:
+
+
+#Diferences btw the graphs.
+print("Como se puede ver en las graficas cuando se realiza la interpolacion de los datos se puede ver un aumento en la cantidad de los datos lo cual ayuda a tenr una transformada de fourier efectiva ")
+
+
+# In[82]:
+
+
+#filters
+# 1000Hz
+fc=1000
+transform[abs(freqO)>fc]=0
+tiempo_0=ifft(transform)
+tranformquadratic[abs(freq)>fc]=0
+tiempo_qua=ifft(tranformquadratic)
+tranformcubic[abs(freq)>fc]=0
+tiempo_cubic=ifft(tranformcubic)
+# 500Hz
+fc=500
+transform[abs(freqO)>fc]=0
+tiempo_0_2=ifft(transform)
+tranformquadratic[abs(freq)>fc]=0
+tiempo_qua_2=ifft(tranformquadratic)
+tranformcubic[abs(freq)>fc]=0
+tiempo_cubic_2=ifft(tranformcubic)
+
+
+# In[90]:
+
+
+#Plot of the interpoltions filtred
+plt.figure()
+plt.subplot(321)
+plt.plot(incomp_1,np.real(tiempo_0),label="Original 1000Hz ")
+plt.ylabel("Amplitud real")
+plt.legend()
+
+plt.subplot(322)
+plt.plot(incomp_1,np.real(tiempo_0_2),label="Original 500Hz ")
+plt.ylabel("Amplitud real")
+plt.legend()
+
+
+plt.subplot(323)
+plt.plot(data_x,np.real(tiempo_qua),label="Quadratic 1000Hz")
+plt.ylabel("Amplitud real")
+plt.legend()
+
+plt.subplot(324)
+plt.plot(data_x,np.real(tiempo_qua_2),label="Cubic 500Hz")
+plt.legend()
+
+plt.subplot(325)
+plt.plot(data_x,np.real(tiempo_cubic),label="Cubic 1000Hz")
+plt.legend()
+plt.ylabel("Amplitud real")
+plt.xlabel("Frecuencia[Hz]")
+
+plt.subplot(326)
+plt.plot(data_x,np.real(tiempo_cubic_2),label="Cubic 500Hz")
+plt.xlabel("Frecuencia[Hz]")
+plt.legend()
+plt.savefig("MartinezDiego_2Filtros.pdf",type = "pdf")
 
