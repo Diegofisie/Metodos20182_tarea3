@@ -102,4 +102,5 @@ plt.grid(True)
 plt.ylabel("PCABenigno")
 plt.xlabel("PCAMaligno")
 plt.savefig("MartinezDiego_PCA.pdf",type = "pdf")
+print("De acuerdo con la gráfica que se obtuvo en el PCA se puede considerar una manera util de poder diagnostricar a un paciente, eso se da gracias a que las tendendias de dispecion hacia un lado o hace el otro demustran la suseptibilidad de un paciente a que su tomor sea maligno, dependiendo de donse se encuentre su lugar de acuerdo a sus datos.")
 
