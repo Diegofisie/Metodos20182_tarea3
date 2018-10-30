@@ -3,7 +3,7 @@
 
 # ### Punto 2
 
-# In[58]:
+# In[2]:
 
 
 #Needed imports 
@@ -14,7 +14,7 @@ from scipy.fftpack import ifft
 from scipy import interpolate
 
 
-# In[59]:
+# In[3]:
 
 
 #read the data from the dat archive signal
@@ -22,7 +22,7 @@ signal = np.loadtxt("signal.dat",delimiter = ",")
 incomplete = np.loadtxt("incompletos.dat",delimiter=",")
 
 
-# In[60]:
+# In[4]:
 
 
 #Separate the 2 columns of the data to make the plot 
@@ -36,7 +36,7 @@ plt.xlabel("Data in signal 0")
 plt.savefig("MartinezDiego_signal.pdf", type = "PDF")
 
 
-# In[61]:
+# In[5]:
 
 
 #Implementation of fourier tranform
@@ -52,7 +52,7 @@ def fourier(signal_2):
     return transform 
 
 
-# In[62]:
+# In[6]:
 
 
 #Fourier transform of the data and transformation of the freq
@@ -63,7 +63,14 @@ freq = np.concatenate((np.linspace(0,pf,len(signal_2))[0:256],np.linspace(-pf,0,
 print("No se utilizo el paquete de fftfreq :)")
 
 
-# In[63]:
+# In[7]:
+
+
+print("Las frecuencias principales son:")
+print(freq[Transf>100])
+
+
+# In[8]:
 
 
 plt.title("Grafica de la transformada")
@@ -76,7 +83,7 @@ plt.grid(True)
 plt.savefig("MartinezDiego_TF.pdf", type = "PDF")
 
 
-# In[64]:
+# In[9]:
 
 
 #lowpass filter
@@ -94,7 +101,7 @@ plt.savefig("MartinezDiego_filtrada.pdf",type = "pdf")
 
 # ### Datos incompletos
 
-# In[65]:
+# In[10]:
 
 
 incomp_1 = incomplete[:,0]
@@ -107,7 +114,7 @@ plt.grid(True)
 print("No se puede encontrar la tranformada de los datos ya que estos tienen una tasa de muestreo muy pequena y esto hace que no hayan suficientes datos como para recontruir la ransformada")
 
 
-# In[77]:
+# In[ ]:
 
 
 #Interpolation on the data, quadratic and cuvis to find the transform.
@@ -124,7 +131,7 @@ freqO = np.concatenate((np.linspace(0,pf,len(imcomp_1))[0:256],np.linspace(-pf,0
 freq = np.concatenate((np.linspace(0,pf,len(data_x))[0:256],np.linspace(-pf,0,len(data_x))[255:511]))
 
 
-# In[80]:
+# In[ ]:
 
 
 plt.figure()
@@ -150,14 +157,14 @@ plt.savefig("MartinezDiego_TF_interpola.pdf",type = "pdf")
 plt.close()
 
 
-# In[81]:
+# In[ ]:
 
 
 #Diferences btw the graphs.
 print("Como se puede ver en las graficas cuando se realiza la interpolacion de los datos se puede ver un aumento en la cantidad de los datos lo cual ayuda a tenr una transformada de fourier efectiva ")
 
 
-# In[82]:
+# In[ ]:
 
 
 #filters
@@ -179,7 +186,7 @@ tranformcubic[abs(freq)>fc]=0
 tiempo_cubic_2=ifft(tranformcubic)
 
 
-# In[90]:
+# In[ ]:
 
 
 #Plot of the interpoltions filtred
