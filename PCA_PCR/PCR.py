@@ -3,7 +3,7 @@
 
 # ### Point 1
 
-# In[2]:
+# In[3]:
 
 
 #Needed imports
@@ -11,14 +11,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# In[3]:
+# In[4]:
 
 
 #Read the data from WDBC.dat 
 data = np.genfromtxt("WDBC.dat",None,delimiter="\n")
 
 
-# In[4]:
+# In[5]:
 
 
 #Create a vector called diagnsis wich represent the first value
@@ -47,7 +47,7 @@ for i in range(len(Matrix)):
     Matrix[i]=Matrix[i]/np.std(Matrix[i])
 
 
-# In[14]:
+# In[7]:
 
 
 #To create the covariance matrix beetwen the data
@@ -63,7 +63,7 @@ for i in range(len(Matrix)):
 print(cov)
 
 
-# In[17]:
+# In[8]:
 
 
 #computation of the eigenvalues and eigenvectors of the covar matrix
@@ -72,4 +72,34 @@ eigvals = aguapanela[0]
 eigvecs = aguapanela[1]
 print("EigenValores: \n" + str(eigvals))
 print("EigenVectores: \n" + str(eigvecs))
+
+
+# In[9]:
+
+
+
+print("las 2 variables principales son las 2 primeras, exeptuando el id y el B o M ya que para estas 2 variables la magnitud de los auto valores son las mas grandes")
+
+
+# In[11]:
+
+
+#PTo verefy the pca we need to evaluate the point product 
+#To bening data
+Ben1,Ben2=np.dot([eigvecs[0],eigvecs[1]],np.transpose(otherdata[diagnosis==0]))
+#Datos Maligno
+Mal1,Mal2=np.dot([eigvecs[0],eigvecs[1]],np.transpose(otherdata[diagnosis==1]))
+
+
+# In[19]:
+
+
+plt.figure()
+plt.scatter(Ben1,Ben2,label="Benigno")
+plt.scatter(Mal1,Mal2,label="Maligno")
+plt.legend()
+plt.grid(True)
+plt.ylabel("PCABenigno")
+plt.xlabel("PCAMaligno")
+plt.savefig("MartinezDiego_PCA.pdf",type = "pdf")
 
